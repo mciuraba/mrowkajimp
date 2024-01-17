@@ -11,6 +11,9 @@ int main( int argc, char** argv ) {
     
     net_t net = net_init( rows, cols, 0 ); // 0 to góra
     net_make_moves( net, moves );
+    
+    // Kończenie programu
+    net_free( net );
 
 	return 0;
 }
