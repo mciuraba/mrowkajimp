@@ -37,6 +37,21 @@ net_t net_init( unsigned rows, unsigned cols, direction_t ant_direction ) {
             return NULL;
         }
     }
+    
+    // GUI
+    net->gui = net_gui_init( rows, cols );
+    if( net->gui == NULL ) { // wystąpił jakiś błąd przy inicjalizacji gui
+        // zwalnianie dotychczasowo zajętej pamięci
+        for( unsigned i=0; i < net->cols; ++i ) {
+            free( net->map[i] );
+        }
+        free( net->map );
+
+        free( net );
+
+        push_crit_error( "nie udało się zainicjować odwzorowanie graficznego siatki - błąd pamięci" );
+        return NULL;
+    }
 
     // Mrówka
     net->ant = ant_init( rows, cols, -1, -1, ant_direction );
@@ -75,6 +90,7 @@ void net_free( net_t* net_ptr ) {
     }
     free( net->map );
 
+    net_gui_free( &(net->gui) );
     ant_free( &(net->ant) );
     free( net );
 

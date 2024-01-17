@@ -3,13 +3,17 @@
 
 #include <stdbool.h>
 
+#include "net_gui.h"
 #include "ant.h"
 
 
 typedef struct {
+    net_gui_t gui;
+
     unsigned rows;
     unsigned cols;
     bool** map; /// [x][y]
+    ant_t ant;
 
 }* net_t;
 
