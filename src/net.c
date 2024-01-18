@@ -178,3 +178,69 @@ void net_switch_tile( net_t net, unsigned x, unsigned y ) {
         net->map[x][y] = WHITE;
     }
 }
+
+void net_set_from_gui( net_t net ) {
+    if( net == NULL || net->gui == NULL ) { // zabezpieczenie
+        push_error( "nie udało się ustawić siatki - siatka nie istnieje" );
+        return;
+    }
+
+    // ustawianie mapy
+    char* str;
+
+    for( int i=0; i < net->rows; ++i ) {
+        for( int j=0; j < net->cols; ++j ) {
+            str = net_gui_get( net->gui, j, i );
+
+            // sprawdza, czy to kwadrat i jeżeli tak to jaki
+            if( strcmp(str, SQUARE_BLACK ) == 0 ) { // czarny kwadrat
+                net->map[j][i] = 1;
+            }
+            else if( strcmp(str, SQUARE_WHITE ) == 0 ) { // biały kwadrat
+                net->map[j][i] = 0;
+            }
+
+            // w takim razie jest to mrówka, a nie kwadrat
+            else {
+                net->ant->x = j;
+                net->ant->y = i;
+
+                // czarna:
+                if( strcmp(str, ARROW_NORTH_BLACK ) == 0 ) {
+                    net->map[j][i] = 1;
+                    net->ant->direction = UP;
+                }
+                else if( strcmp(str, ARROW_EAST_BLACK ) == 0 ) {
+                    net->map[j][i] = 1;
+                    net->ant->direction = RIGHT;
+                }
+                else if( strcmp(str, ARROW_SOUTH_BLACK ) == 0 ) {
+                    net->map[j][i] = 1;
+                    net->ant->direction = DOWN;
+                }
+                else if( strcmp(str, ARROW_WEST_BLACK ) == 0 ) {
+                    net->map[j][i] = 1;
+                    net->ant->direction = LEFT;
+                }
+
+                    // biała:
+                else if( strcmp(str, ARROW_NORTH_WHITE ) == 0 ) {
+                    net->map[j][i] = 0;
+                    net->ant->direction = UP;
+                }
+                else if( strcmp(str, ARROW_EAST_WHITE) == 0 ) {
+                    net->map[j][i] = 0;
+                    net->ant->direction = RIGHT;
+                }
+                else if( strcmp(str, ARROW_SOUTH_WHITE ) == 0 ) {
+                    net->map[j][i] = 0;
+                    net->ant->direction = DOWN;
+                }
+                else if( strcmp(str, ARROW_WEST_WHITE ) == 0 ) {
+                    net->map[j][i] = 0;
+                    net->ant->direction = LEFT;
+                }
+            }
+        }
+    }
+}

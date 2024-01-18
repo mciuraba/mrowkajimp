@@ -23,5 +23,6 @@ void net_free( net_t* );
 void net_gen_by_perc( net_t, unsigned perc );
 void net_make_moves( net_t, int amount );
 void net_switch_tile( net_t, unsigned x, unsigned y );
+void net_set_from_gui( net_t );
 
 #endif /// NET_H_IS_INCLUDED
