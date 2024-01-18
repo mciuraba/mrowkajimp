@@ -20,6 +20,7 @@ typedef struct {
 net_t net_init( unsigned rows, unsigned cols, direction_t ant_direction );
 void net_free( net_t* );
 
+void net_gen_by_perc( net_t, unsigned perc );
 void net_make_moves( net_t, int amount );
 void net_switch_tile( net_t, unsigned x, unsigned y );
 

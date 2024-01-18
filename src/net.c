@@ -1,5 +1,7 @@
 #include "net.h"
 #include "repository.h"
+#include "arguments.h"
+#include "filer.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -37,7 +39,7 @@ net_t net_init( unsigned rows, unsigned cols, direction_t ant_direction ) {
             return NULL;
         }
     }
-    
+
     // GUI
     net->gui = net_gui_init( rows, cols );
     if( net->gui == NULL ) { // wystąpił jakiś błąd przy inicjalizacji gui
@@ -99,6 +101,24 @@ void net_free( net_t* net_ptr ) {
 
 
 
+void net_gen_by_perc( net_t net, unsigned perc ) {
+    srand( time( NULL ) );
+
+    unsigned cells_left = net->cols * net->rows;
+    unsigned cells_to_fill = perc * cells_left / 100;
+
+    for( int i=0; i < net->rows; ++i ) {
+        for( int j=0; j < net->cols; ++j ) {
+
+            if( rand() % cells_left < cells_to_fill ) {
+                net->map[j][i] = 1;
+                --cells_to_fill;
+            }
+            --cells_left;
+        }
+    }
+}
+
 void net_make_moves( net_t net, int amount ) {
     unsigned last_x = 0;
     unsigned last_y = 0;
@@ -110,6 +130,36 @@ void net_make_moves( net_t net, int amount ) {
         // wykonywanie ruchu
         ant_move( net->ant, net->map[ net->ant->x ][ net->ant->y ] );
         net_switch_tile( net, last_x, last_y );
+
+        // ustawianie i rysowanie siatki
+        if( arguments.print_all_flag ) { // rysowanie na bieżąco
+            clear_console();
+            if( net_gui_set( net->gui, net->map, net->rows, net->cols, net->ant ) == 0 ) { // wystąpił błąd
+                net_gui_print( net->gui );
+            }
+            else {
+                push_error( "nie udało się ustawić wartości w graficznym odzwierciedleniu siatki" );
+            }
+        }
+
+        if( i >= (amount - MAX_FILES) ) { // ma zacząć tworzyć pliki
+            if( net_gui_set( net->gui, net->map, net->rows, net->cols, net->ant ) == 0 ) { // wystąpił błąd
+                file_make_from_gui( net->gui, i+1 );
+            }
+            else {
+                push_error( "nie udało się ustawić wartości w graficznym odzwierciedleniu siatki" );
+            }
+        }
+    }
+
+    // rysowanie ostatniej iteracji
+    if( !arguments.print_all_flag ) {
+        if( net_gui_set( net->gui, net->map, net->rows, net->cols, net->ant ) == 0 ) { // wystąpił błąd
+            net_gui_print( net->gui );
+        }
+        else {
+            push_error( "nie udało się ustawić wartości w graficznym odzwierciedleniu siatki" );
+        }
     }
 }
 
