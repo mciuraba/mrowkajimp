@@ -1,13 +1,13 @@
-========================================================================================================================
-		   				     KOMPILACJA:
+===============================================================================================================
+		   				   KOMPILACJA:
 Do kompilacji programu zalecane jest użycie gotowego pliku Makefile. Żeby tego dokonać
 udajemy się w konsoli do lokalizacji tego miejsca i wpisujemy polecenie "make". Jeżeli
 chce się wyczyścić poprzednie pliki można wpisać polecenie "make clean".
 
 Po skompilowaniu programu ten jest gotowy do użytkowania.
 
-========================================================================================================================
-	      					URUCHAMIANIE PROGRAMU:
+===============================================================================================================
+	      				     URUCHAMIANIE PROGRAMU:
 1. Należy udać się do lokalizacji skompilowanego wcześniej programu.
 
 2. Następnie wpisujemy polecenie:
@@ -16,8 +16,8 @@ Po skompilowaniu programu ten jest gotowy do użytkowania.
 
 	(Opis wymaganych oraz możliwych parametrów znajduje się poniżej)
 
-========================================================================================================================
-						 PARAMETRY WYWOŁANIA:
+===============================================================================================================
+					      PARAMETRY WYWOŁANIA:
 Wymagane:
      - liczba wierszy ( >= 5 )
      - liczba kolumn ( >= 5 )
@@ -35,7 +35,7 @@ Wymagane:
 Opcjonalne:
      -a			| * rysuje w konsoli wszystkie iteracje przez jakie przechodzi program
      -m <ścieżka>	| * w miejscu <ścieżka> można podać lokalizację siatki początkowej.
-			| ( UWAGA: Podana siatka musi być w identycznym formacie co pliki zapisywane przez program. )
+			|      (UWAGA: plik musi być w identycznym formacie co pliki zapisywane przez program)
      -p <0 - 100>	| * początkowe procentowe wypełnienie siatki czarnymi polami
 
-========================================================================================================================
+===============================================================================================================
